@@ -30,6 +30,30 @@ class Client(models.Model):
         verbose_name_plural = "клиенты"
 
 
+class MailMessage(models.Model):
+    subject = models.CharField(
+        max_length=100,
+        verbose_name="Тема письма",
+        blank=True,
+        null=True,
+        help_text='Введите тему письма.'
+    )
+    body = models.TextField(
+        verbose_name="Тело письма",
+        blank=True,
+        null=True,
+        help_text='Введите текст письма.'
+    )
+
+    def __str__(self):
+        # Строковое отображение объекта
+        return f"{self.subject}"
+
+    class Meta:
+        verbose_name = "сообщение"
+        verbose_name_plural = "сообщения"
+
+
 class Mail(models.Model):
     title = models.CharField(
         max_length=50,
@@ -69,38 +93,30 @@ class Mail(models.Model):
         null=True,
         help_text='Выберите статус.'
     )
+    mail_message = models.ForeignKey(
+        MailMessage,
+        related_name='mail',
+        on_delete=models.SET_NULL,
+        verbose_name="Сообщение рассылки",
+        null=True,
+        blank=True,
+    )
+    client = models.ManyToManyField(
+        Client,
+        related_name='mail',
+        on_delete=models.SET_NULL,
+        verbose_name="Клиенты рассылки",
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         # Строковое отображение объекта
-        return f"{self.full_name}, email - {self.email}"
+        return f"{self.title}, {self.first_date}"
 
     class Meta:
         verbose_name = "рассылка"
         verbose_name_plural = "рассылки"
-
-
-class MailMessage(models.Model):
-    subject = models.CharField(
-        max_length=100,
-        verbose_name="Тема письма",
-        blank=True,
-        null=True,
-        help_text='Введите тему письма.'
-    )
-    body = models.TextField(
-        verbose_name="Тело письма",
-        blank=True,
-        null=True,
-        help_text='Введите текст письма.'
-    )
-
-    def __str__(self):
-        # Строковое отображение объекта
-        return f"{self.subject}"
-
-    class Meta:
-        verbose_name = "сообщение"
-        verbose_name_plural = "сообщения"
 
 
 class MailTry(models.Model):
