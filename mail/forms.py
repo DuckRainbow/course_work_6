@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import BooleanField
 
-from mail.models import Mail
+from mail.models import Mail, Client, MailMessage, MailTry
 
 
 class FormStyleMixin:
@@ -20,3 +20,19 @@ class MailForm(FormStyleMixin, forms.ModelForm):
         fields = ('title', 'first_date', 'periodicity', 'status', 'mail_message', 'client')
 
 
+class ClientForm(FormStyleMixin, forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ('email', 'full_name', 'comment')
+
+
+class MailMessageForm(FormStyleMixin, forms.ModelForm):
+    class Meta:
+        model = MailMessage
+        fields = ('subject', 'body')
+
+
+class MailTryForm(FormStyleMixin, forms.ModelForm):
+    class Meta:
+        model = MailTry
+        fields = ('date_time', 'status')

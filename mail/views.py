@@ -10,18 +10,12 @@ from mail.models import Client, MailMessage, Mail, MailTry
 class ClientListView(ListView):
     model = Client
 
-    def get_queryset(self):
-        return get_products_from_cache()
+    # def get_queryset(self):
+    # return get_products_from_cache()
 
 
 class ClientDetailView(DetailView):
     model = Client
-
-    # def get_object(self, queryset=None):
-    #     self.object = super().get_object(queryset)
-    #     self.object.views_counter += 1
-    #     self.object.save()
-    #     return self.object
 
 
 class ClientCreateView(CreateView, LoginRequiredMixin):
