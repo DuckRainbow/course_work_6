@@ -26,7 +26,7 @@ class ClientDetailView(DetailView):
 
 class ClientCreateView(CreateView, LoginRequiredMixin):
     model = Client
-    form_class = ClientForm
+    # form_class = ClientForm
     # success_url = reverse_lazy('catalog:products_list')
 
     # def form_valid(self, form):
@@ -39,7 +39,7 @@ class ClientCreateView(CreateView, LoginRequiredMixin):
 
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
-    form_class = ClientForm
+    # form_class = ClientForm
     # success_url = reverse_lazy('catalog:products_list')
 
     # def get_context_data(self, **kwargs):
