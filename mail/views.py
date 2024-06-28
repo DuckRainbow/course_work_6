@@ -143,6 +143,7 @@ class MailDeleteView(DeleteView):
     model = Mail
     # success_url = reverse_lazy('catalog:articles_list')
 
+
 class MailTryListView(ListView):
     model = MailTry
 
