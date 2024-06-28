@@ -104,7 +104,6 @@ class Mail(models.Model):
     client = models.ManyToManyField(
         Client,
         related_name='mail',
-        on_delete=models.SET_NULL,
         verbose_name="Клиенты рассылки",
         null=True,
         blank=True,
