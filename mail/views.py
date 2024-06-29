@@ -4,6 +4,7 @@ from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from mail.forms import ClientForm, MailMessageForm, MailForm, MailTryForm
 from mail.models import Client, MailMessage, Mail, MailTry
 
 
@@ -20,7 +21,7 @@ class ClientDetailView(DetailView):
 
 class ClientCreateView(CreateView, LoginRequiredMixin):
     model = Client
-    # form_class = ClientForm
+    form_class = ClientForm
     # success_url = reverse_lazy('catalog:products_list')
 
     # def form_valid(self, form):
@@ -33,7 +34,7 @@ class ClientCreateView(CreateView, LoginRequiredMixin):
 
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
-    # form_class = ClientForm
+    form_class = ClientForm
     # success_url = reverse_lazy('catalog:products_list')
 
     # def get_context_data(self, **kwargs):
@@ -88,11 +89,13 @@ class MailMessageDetailView(DetailView):
 
 class MailMessageCreateView(CreateView):
     model = MailMessage
+    form_class = MailMessageForm
     # success_url = reverse_lazy('catalog:articles_list')
 
 
 class MailMessageUpdateView(UpdateView):
     model = MailMessage
+    form_class = MailMessageForm
     # fields = ('title', 'slug', 'content', 'preview', 'published')
     # success_url = reverse_lazy('catalog:articles_list')
 
@@ -121,11 +124,13 @@ class MailDetailView(DetailView):
 
 class MailCreateView(CreateView):
     model = Mail
+    form_class = MailForm
     # success_url = reverse_lazy('catalog:articles_list')
 
 
 class MailUpdateView(UpdateView):
     model = Mail
+    form_class = MailForm
     # fields = ('title', 'slug', 'content', 'preview', 'published')
     # success_url = reverse_lazy('catalog:articles_list')
 
@@ -154,11 +159,13 @@ class MailTryDetailView(DetailView):
 
 class MailTryCreateView(CreateView):
     model = MailTry
+    form_class = MailTryForm
     # success_url = reverse_lazy('catalog:articles_list')
 
 
 class MailTryUpdateView(UpdateView):
     model = MailTry
+    form_class = MailTryForm
     # fields = ('title', 'slug', 'content', 'preview', 'published')
     # success_url = reverse_lazy('catalog:articles_list')
 

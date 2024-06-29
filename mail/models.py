@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Client(models.Model):
     email = models.EmailField(
@@ -19,6 +21,13 @@ class Client(models.Model):
         blank=True,
         null=True,
         help_text='Введите комментарий к клиенту.'
+    )
+    owner = models.ForeignKey(
+        User,
+        verbose_name='Создатель',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
     )
 
     def __str__(self):
@@ -43,6 +52,13 @@ class MailMessage(models.Model):
         blank=True,
         null=True,
         help_text='Введите текст письма.'
+    )
+    owner = models.ForeignKey(
+        User,
+        verbose_name='Создатель',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
     )
 
     def __str__(self):
@@ -107,6 +123,13 @@ class Mail(models.Model):
         verbose_name="Клиенты рассылки",
         null=True,
         blank=True,
+    )
+    owner = models.ForeignKey(
+        User,
+        verbose_name='Создатель',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
     )
 
     def __str__(self):
