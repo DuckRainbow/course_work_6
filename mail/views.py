@@ -145,13 +145,3 @@ class MailDeleteView(DeleteView):
 
 class MailTryListView(ListView):
     model = MailTry
-
-
-class MailTryDetailView(DetailView):
-    model = MailTry
-
-    # def get_object(self, queryset=None):
-    #     self.object = super().get_object(queryset)
-    #     self.object.views_counter += 1
-    #     self.object.save()
-    #     return self.object
