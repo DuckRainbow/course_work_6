@@ -4,7 +4,7 @@ from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from mail.forms import ClientForm, MailMessageForm, MailForm, MailTryForm
+from mail.forms import ClientForm, MailMessageForm, MailForm
 from mail.models import Client, MailMessage, Mail, MailTry
 
 
@@ -155,24 +155,3 @@ class MailTryDetailView(DetailView):
     #     self.object.views_counter += 1
     #     self.object.save()
     #     return self.object
-
-
-class MailTryCreateView(CreateView):
-    model = MailTry
-    form_class = MailTryForm
-    # success_url = reverse_lazy('catalog:articles_list')
-
-
-class MailTryUpdateView(UpdateView):
-    model = MailTry
-    form_class = MailTryForm
-    # fields = ('title', 'slug', 'content', 'preview', 'published')
-    # success_url = reverse_lazy('catalog:articles_list')
-
-    # def get_success_url(self):
-    #     return reverse('catalog:articles_detail', args=[self.kwargs.get('pk')])
-
-
-class MailTryDeleteView(DeleteView):
-    model = MailTry
-    # success_url = reverse_lazy('catalog:articles_list')

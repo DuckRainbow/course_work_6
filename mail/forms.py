@@ -32,7 +32,4 @@ class MailMessageForm(FormStyleMixin, forms.ModelForm):
         fields = ('subject', 'body')
 
 
-class MailTryForm(FormStyleMixin, forms.ModelForm):
-    class Meta:
-        model = MailTry
-        fields = ('date_time', 'status')
+
