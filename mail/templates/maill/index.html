@@ -179,7 +179,7 @@
 
 
 <header data-bs-theme="dark">
-{% include 'catalog/includes/inc_menu.html' %}
+    {% include 'catalog/includes/inc_menu.html' %}
 </header>
 
 <main>
@@ -188,17 +188,43 @@
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1 class="fw-light">Cервис рассылок</h1>
-                <p>
-                    <a class="btn btn-primary" href="{% url 'catalog:products_create' %}" role="button">
-                        Создать продукт</a>
-                </p>
             </div>
         </div>
     </section>
 
-{% block content %}
-{% endblock %}
 
+    <div class="row text-center">
+        <h5 class="text header mb-2">
+            Количество рассылок на сервисе: {{ mail_count }}
+        </h5>
+    </div>
+    <div class="row text-center">
+        <h5 class="text header mb-2">
+            Количество действующих рассылок: {{ active_mail_count }}
+        </h5>
+    </div>
+    <div class="row text-center">
+        <h5 class="text header mb-2">
+            Количество клиентов сервиса: {{ clients_count }}
+        </h5>
+    </div>
+    <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for article in some_articles %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img src="{{ article.preview | media_filter }}" class="rounded float-start">
+                    <div class="card-body">
+                            <p class="card-text">{{ article.title }}</p>
+                            <p class="card-text">{{ article.content|truncatechars:100 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 </main>
 
 <footer class="text-body-secondary py-5">

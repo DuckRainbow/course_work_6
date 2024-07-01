@@ -1,8 +1,10 @@
+import random
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
 from mail.forms import ClientForm, MailMessageForm, MailForm
 from mail.models import Client, MailMessage, Mail, MailTry
@@ -145,3 +147,17 @@ class MailDeleteView(DeleteView):
 
 class MailTryListView(ListView):
     model = MailTry
+
+
+class HomePage(TemplateView):
+    template_name = 'mail/index.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        context_data['mail_count'] = Mail.objects.all().count()
+        context_data['active_mail_count'] = Mail.objects.exclude(status='completed').count()
+        context_data['clients_count'] = Client.objects.all().count()
+        articles = self.get_articles_from_cache()
+        random.shuffle(articles)
+        context_data['some_articles'] = articles[0:3]
+        return context_data
