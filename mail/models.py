@@ -165,6 +165,14 @@ class MailTry(models.Model):
         blank=True,
         null=True,
     )
+    mail = models.ForeignKey(
+        Mail,
+        related_name='mailtry',
+        on_delete=models.SET_NULL,
+        verbose_name="Попытка данной рассылки",
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         # Строковое отображение объекта
