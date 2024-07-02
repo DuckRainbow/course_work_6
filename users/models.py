@@ -3,7 +3,12 @@ from django.db import models
 
 
 class User(AbstractUser):
-    username = None
+    username = models.CharField(
+        max_length=50,
+        verbose_name='Логин',
+        blank=True,
+        null=True,
+    )
     email = models.EmailField(unique=True, verbose_name='Email')
     token = models.CharField(
         max_length=100,

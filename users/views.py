@@ -5,7 +5,7 @@ import secrets
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, TemplateView, UpdateView
+from django.views.generic import CreateView, TemplateView, UpdateView, DetailView
 
 from users.forms import UserRegisterForm, UserUpdateForm
 from users.models import User
@@ -40,6 +40,10 @@ def email_verification(request, token):
     user.is_active = True
     user.save()
     return redirect(reverse('users:login'))
+
+
+class UserDetailView(DetailView):
+    model = User
 
 
 class UserUpdateView(UpdateView):

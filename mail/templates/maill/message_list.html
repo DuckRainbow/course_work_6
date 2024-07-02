@@ -24,7 +24,7 @@
                     <div class="card-body">
                         <p class="card-text">{{ message.subject }}</p>
                         <p class="card-text">{{ message.body|comment:25 }}</p>
-<!--                         {% if perms. or user == message.owner %}-->
+                        <!--                         {% if perms. or user == message.owner %}-->
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a class="btn btn-primary" href="{% url 'catalog:messages_detail' message.pk %}"
@@ -35,12 +35,28 @@
                                    role="button">Удалить</a>
                             </div>
                         </div>
-<!--                        {% endif %}-->
+                        <!--                        {% endif %}-->
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
+    </div>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+    <div class="btn-group">
+        <a class="btn btn-primary" href="{% url 'mail:clients_list' %}" role="button">Перейти к клиентам</a>
+    </div>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+    <div class="btn-group">
+        <a class="btn btn-primary" href="{% url 'mail:mail_list' %}" role="button">Перейти к рассылкам</a>
+    </div>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+    <div class="btn-group">
+        <a class="btn btn-primary" href="{% url 'mail:mailtry_list' %}" role="button">Посмотреть последние попытки
+            рассылок</a>
     </div>
 </div>
 {% endblock %}
