@@ -10,18 +10,6 @@ from config.settings import CACHE_ENABLED
 class ArticleListView(ListView):
     model = Article
 
-    @staticmethod
-    def get_articles_from_cache():
-        """Получает данные из кэша, если кэш пуст, получает данные из бд."""
-        if not CACHE_ENABLED:
-            return Article.objects.all()
-        key = 'articles_list'
-        articles = Article.get(key)
-        if articles is not None:
-            return articles
-        articles = Article.objects.all()
-        cache.set(key, articles)
-        return articles
 
 
 class ArticleDetailView(DetailView):
