@@ -170,7 +170,7 @@ class HomePage(TemplateView):
         context_data = super().get_context_data(*args, **kwargs)
         context_data['mail_count'] = Mail.objects.all().count()
         context_data['active_mail_count'] = Mail.objects.exclude(status='completed').count()
-        context_data['clients_count'] = self.get_clients_from_cache()
+        context_data['clients_count'] = self.get_clients_from_cache.count()()
         articles = self.get_articles_from_cache()
         random.shuffle(articles)
         context_data['some_articles'] = articles[0:3]
