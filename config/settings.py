@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mail',
-    'users'
+    'users',
+    'blog'
 ]
 
 MIDDLEWARE = [
@@ -143,7 +144,7 @@ FIXTURES_ROOT = os.path.join(BASE_DIR, 'fixtures')
 
 AUTH_USER_MODEL = 'users.User'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'profile/'
 LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_HOST = os.getenv('EMAIL_HOST')
