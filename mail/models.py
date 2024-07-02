@@ -1,3 +1,7 @@
+import datetime
+
+import pytz
+from django.conf import settings
 from django.db import models
 
 from users.models import User
@@ -79,7 +83,12 @@ class Mail(models.Model):
         help_text='Введите название рассылки.'
     )
     first_date = models.DateTimeField(
-        verbose_name="Дата создания",
+        verbose_name="Дата первой отправкм",
+        blank=True,
+        null=True
+    )
+    date_try = models.DateTimeField(
+        verbose_name="Дата последней попытки",
         blank=True,
         null=True
     )
@@ -117,7 +126,7 @@ class Mail(models.Model):
         null=True,
         blank=True,
     )
-    client = models.ManyToManyField(
+    clients = models.ManyToManyField(
         Client,
         related_name='mail',
         verbose_name="Клиенты рассылки",
@@ -139,6 +148,12 @@ class Mail(models.Model):
     class Meta:
         verbose_name = "рассылка"
         verbose_name_plural = "рассылки"
+        permissions = [
+            (
+                'can_see_mails',
+                'can_change_status'
+            )
+        ]
 
 
 class MailTry(models.Model):
@@ -181,3 +196,6 @@ class MailTry(models.Model):
     class Meta:
         verbose_name = "попытка"
         verbose_name_plural = "попытки"
+
+    def get_date(self):
+        self.mail.date_try = self.date_time

@@ -32,4 +32,10 @@ class MailMessageForm(FormStyleMixin, forms.ModelForm):
         fields = ('subject', 'body')
 
 
+class MailModeratorForm(FormStyleMixin, forms.ModelForm):
+    class Meta:
+        model = Mail
+        fields = ('status',)
+
+
 

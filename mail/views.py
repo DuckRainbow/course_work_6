@@ -1,16 +1,14 @@
 import random
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
-from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
 from config.settings import CACHE_ENABLED
-from mail.forms import ClientForm, MailMessageForm, MailForm
+from mail.forms import ClientForm, MailMessageForm, MailForm, MailModeratorForm
 from mail.models import Client, MailMessage, Mail, MailTry
-from blog.services import get_articles_from_cache
 
 
 class ClientListView(ListView):
@@ -34,7 +32,7 @@ class ClientDetailView(DetailView):
     model = Client
 
 
-class ClientCreateView(CreateView, LoginRequiredMixin):
+class ClientCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('mail:clients_list')
@@ -47,7 +45,7 @@ class ClientCreateView(CreateView, LoginRequiredMixin):
         return super().form_valid(form)
 
 
-class ClientUpdateView(LoginRequiredMixin, UpdateView):
+class ClientUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('mail:clients_list')
@@ -56,14 +54,10 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
         user = self.request.user
         if user == self.object.owner:
             return ClientForm
-        # if user.has_perm('catalog.can_publish_product') and user.has_perm(
-        #         'catalog.can_edit_description') and user.has_perm(
-        #         'catalog.can_change_category'):
-        #     return ClientForm
         raise PermissionDenied
 
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(PermissionRequiredMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('mail:clients_list')
 
@@ -76,21 +70,34 @@ class MailMessageDetailView(DetailView):
     model = MailMessage
 
 
-class MailMessageCreateView(CreateView):
+class MailMessageCreateView(PermissionRequiredMixin, CreateView):
     model = MailMessage
     form_class = MailMessageForm
     success_url = reverse_lazy('mail:messages_list')
 
+    def form_valid(self, form):
+        client = form.save()
+        user = self.request.user
+        client.owner = user
+        client.save()
+        return super().form_valid(form)
 
-class MailMessageUpdateView(UpdateView):
+
+class MailMessageUpdateView(PermissionRequiredMixin, UpdateView):
     model = MailMessage
     form_class = MailMessageForm
 
     def get_success_url(self):
         return reverse('mail:messages_detail', args=[self.kwargs.get('pk')])
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return MailMessageForm
+        raise PermissionDenied
 
-class MailMessageDeleteView(DeleteView):
+
+class MailMessageDeleteView(PermissionRequiredMixin, DeleteView):
     model = MailMessage
     success_url = reverse_lazy('mail:messages_list')
 
@@ -103,21 +110,37 @@ class MailDetailView(DetailView):
     model = Mail
 
 
-class MailCreateView(CreateView):
+class MailCreateView(PermissionRequiredMixin, CreateView):
     model = Mail
     form_class = MailForm
     success_url = reverse_lazy('mail:mails_list')
 
+    def form_valid(self, form):
+        client = form.save()
+        user = self.request.user
+        client.owner = user
+        client.save()
+        return super().form_valid(form)
 
-class MailUpdateView(UpdateView):
+
+class MailUpdateView(PermissionRequiredMixin, UpdateView):
     model = Mail
     form_class = MailForm
 
     def get_success_url(self):
         return reverse('mail:mails_detail', args=[self.kwargs.get('pk')])
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return MailForm
+        if user.has_perm('mail.can_see_mails') and user.has_perm(
+                'mail.can_change_status'):
+            return MailModeratorForm
+        raise PermissionDenied
 
-class MailDeleteView(DeleteView):
+
+class MailDeleteView(PermissionRequiredMixin, DeleteView):
     model = Mail
     success_url = reverse_lazy('mail:mails_list')
 
