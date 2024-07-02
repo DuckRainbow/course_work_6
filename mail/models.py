@@ -149,9 +149,7 @@ class Mail(models.Model):
         verbose_name = "рассылка"
         verbose_name_plural = "рассылки"
         permissions = [
-            (
-                'can_change_status'
-            )
+            ('can_change_status', 'Can change status')
         ]
 
 
