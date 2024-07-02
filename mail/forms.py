@@ -17,7 +17,7 @@ class FormStyleMixin:
 class MailForm(FormStyleMixin, forms.ModelForm):
     class Meta:
         model = Mail
-        fields = ('title', 'first_date', 'periodicity', 'status', 'mail_message', 'client')
+        fields = ('title', 'first_date', 'periodicity', 'status', 'mail_message', 'clients')
 
 
 class ClientForm(FormStyleMixin, forms.ModelForm):
