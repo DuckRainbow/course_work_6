@@ -20,6 +20,6 @@ class MessageAdmin(admin.ModelAdmin):
 
 @admin.register(Mail)
 class MailAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'first_date', 'periodicity', 'status', 'mail_message', 'client', 'owner')
-    list_filter = ('owner', 'client', 'mail_message', 'status', 'periodicity')
+    list_display = ('id', 'title', 'first_date', 'periodicity', 'status', 'mail_message', 'clients', 'owner')
+    list_filter = ('owner', 'clients', 'mail_message', 'status', 'periodicity')
     search_fields = ('title', 'first_date', 'owner')

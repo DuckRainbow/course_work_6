@@ -24,7 +24,7 @@
                     <div class="card-body">
                         <p class="card-text">{{ client.full_name }}</p>
                         <p class="card-text">{{ client.comment|comment:25 }}</p>
-                        <!--                        {% if perms. or user == client.owner %}-->
+                        {% user == client.owner %}
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a class="btn btn-primary" href="{% url 'catalog:clients_detail' client.pk %}"
@@ -35,7 +35,7 @@
                                    role="button">Удалить</a>
                             </div>
                         </div>
-                        <!--                        {% endif %}-->
+                        {% endif %}
                     </div>
                 </div>
             </div>

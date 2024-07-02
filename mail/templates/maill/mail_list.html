@@ -24,15 +24,17 @@
                     <div class="card-body">
                         <p class="card-text">{{ mail.title }}</p>
                         <p class="card-text">{{ mail.status }}</p>
-                        <!--                            {% if perms. or user == mail.owner %}-->
+                        {% if perms.can_see_mails and perms.can_change_status or user == mail.owner %}
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a class="btn btn-primary" href="{% url 'mail:mails_detail' mail.pk %}" role="button">Посмотреть</a>
                                 <a class="btn btn-primary" href="{% url 'mail:mails_update' mail.pk %}" role="button">Редактировать</a>
+                                {% endif %}
+                                {user == mail.owner %}
                                 <a class="btn btn-primary" href="{% url 'mail:mails_delete' mail.pk %}" role="button">Удалить</a>
                             </div>
                         </div>
-                        <!--                            {% endif %}-->
+                        {% endif %}
                     </div>
                 </div>
             </div>
