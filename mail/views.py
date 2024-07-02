@@ -1,20 +1,33 @@
 import random
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
+from config.settings import CACHE_ENABLED
 from mail.forms import ClientForm, MailMessageForm, MailForm
 from mail.models import Client, MailMessage, Mail, MailTry
+from blog.services import get_articles_from_cache
 
 
 class ClientListView(ListView):
     model = Client
 
-    # def get_queryset(self):
-    # return get_products_from_cache()
+    @staticmethod
+    def get_clients_from_cache():
+        """Получает данные из кэша, если кэш пуст, получает данные из бд."""
+        if not CACHE_ENABLED:
+            return Client.objects.all()
+        key = 'clients_list'
+        clients = cache.get(key)
+        if clients is not None:
+            return clients
+        clients = Client.objects.all()
+        cache.set(key, clients)
+        return clients
 
 
 class ClientDetailView(DetailView):
@@ -24,55 +37,35 @@ class ClientDetailView(DetailView):
 class ClientCreateView(CreateView, LoginRequiredMixin):
     model = Client
     form_class = ClientForm
-    # success_url = reverse_lazy('catalog:products_list')
+    success_url = reverse_lazy('mail:clients_list')
 
-    # def form_valid(self, form):
-    #     product = form.save()
-    #     user = self.request.user
-    #     product.creator = user
-    #     product.save()
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        client = form.save()
+        user = self.request.user
+        client.owner = user
+        client.save()
+        return super().form_valid(form)
 
 
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
     form_class = ClientForm
-    # success_url = reverse_lazy('catalog:products_list')
+    success_url = reverse_lazy('mail:clients_list')
 
-    # def get_context_data(self, **kwargs):
-    #     context_data = super().get_context_data(**kwargs)
-    #     ProductFormSet = inlineformset_factory(Product, Version, VersionForm, extra=1)
-    #     if self.request.method == 'POST':
-    #         context_data['formset'] = ProductFormSet(self.request.POST, instance=self.object)
-    #     else:
-    #         context_data['formset'] = ProductFormSet(instance=self.object)
-    #     return context_data
-    #
-    # def form_valid(self, form):
-    #     context = self.get_context_data()
-    #     formset = context["formset"]
-    #     self.object = form.save()
-    #     if formset.is_valid():
-    #         formset.instance = self.object
-    #         formset.save()
-    #     else:
-    #         return self.form_invalid(form)
-    #     return super().form_valid(form)
-
-    # def get_form_class(self):
-    #     user = self.request.user
-    #     if user == self.object.creator:
-    #         return ProductForm
-    #     if user.has_perm('catalog.can_publish_product') and user.has_perm(
-    #             'catalog.can_edit_description') and user.has_perm(
-    #             'catalog.can_change_category'):
-    #         return ProductModeratorForm
-    #     raise PermissionDenied
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ClientForm
+        # if user.has_perm('catalog.can_publish_product') and user.has_perm(
+        #         'catalog.can_edit_description') and user.has_perm(
+        #         'catalog.can_change_category'):
+        #     return ClientForm
+        raise PermissionDenied
 
 
 class ClientDeleteView(DeleteView):
     model = Client
-    # success_url = reverse_lazy('catalog:products_list')
+    success_url = reverse_lazy('mail:clients_list')
 
 
 class MailMessageListView(ListView):
@@ -82,32 +75,24 @@ class MailMessageListView(ListView):
 class MailMessageDetailView(DetailView):
     model = MailMessage
 
-    # def get_object(self, queryset=None):
-    #     self.object = super().get_object(queryset)
-    #     self.object.views_counter += 1
-    #     self.object.save()
-    #     return self.object
-
 
 class MailMessageCreateView(CreateView):
     model = MailMessage
     form_class = MailMessageForm
-    # success_url = reverse_lazy('catalog:articles_list')
+    success_url = reverse_lazy('mail:messages_list')
 
 
 class MailMessageUpdateView(UpdateView):
     model = MailMessage
     form_class = MailMessageForm
-    # fields = ('title', 'slug', 'content', 'preview', 'published')
-    # success_url = reverse_lazy('catalog:articles_list')
 
-    # def get_success_url(self):
-    #     return reverse('catalog:articles_detail', args=[self.kwargs.get('pk')])
+    def get_success_url(self):
+        return reverse('mail:messages_detail', args=[self.kwargs.get('pk')])
 
 
 class MailMessageDeleteView(DeleteView):
     model = MailMessage
-    # success_url = reverse_lazy('catalog:articles_list')
+    success_url = reverse_lazy('mail:messages_list')
 
 
 class MailListView(ListView):
@@ -117,32 +102,24 @@ class MailListView(ListView):
 class MailDetailView(DetailView):
     model = Mail
 
-    # def get_object(self, queryset=None):
-    #     self.object = super().get_object(queryset)
-    #     self.object.views_counter += 1
-    #     self.object.save()
-    #     return self.object
-
 
 class MailCreateView(CreateView):
     model = Mail
     form_class = MailForm
-    # success_url = reverse_lazy('catalog:articles_list')
+    success_url = reverse_lazy('mail:mails_list')
 
 
 class MailUpdateView(UpdateView):
     model = Mail
     form_class = MailForm
-    # fields = ('title', 'slug', 'content', 'preview', 'published')
-    # success_url = reverse_lazy('catalog:articles_list')
 
-    # def get_success_url(self):
-    #     return reverse('catalog:articles_detail', args=[self.kwargs.get('pk')])
+    def get_success_url(self):
+        return reverse('mail:mails_detail', args=[self.kwargs.get('pk')])
 
 
 class MailDeleteView(DeleteView):
     model = Mail
-    # success_url = reverse_lazy('catalog:articles_list')
+    success_url = reverse_lazy('mail:mails_list')
 
 
 class MailTryListView(ListView):
