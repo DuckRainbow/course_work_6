@@ -150,7 +150,6 @@ class Mail(models.Model):
         verbose_name_plural = "рассылки"
         permissions = [
             (
-                'can_see_mails',
                 'can_change_status'
             )
         ]

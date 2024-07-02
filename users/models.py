@@ -24,7 +24,6 @@ class User(AbstractUser):
         verbose_name_plural = 'Пользователи'
         permissions = [
             (
-                'Can see users',
                 'Can block user'
             )
         ]
