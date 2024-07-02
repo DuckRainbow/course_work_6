@@ -159,7 +159,7 @@ class HomePage(TemplateView):
         if not CACHE_ENABLED:
             return Article.objects.all()
         key = 'articles_list'
-        articles = Article.get(key)
+        articles = cache.get(key)
         if articles is not None:
             return articles
         articles = Article.objects.all()
