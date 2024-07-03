@@ -7,7 +7,7 @@
             <h1 class="fw-light">Блог</h1>
             {% if user.is_authenticated %}
             <p>
-                <a class="btn btn-primary" href="{% url 'mail:mails_create' %}" role="button">
+                <a class="btn btn-primary" href="{% url 'blog:articles_create' %}" role="button">
                     Создать статью</a>
             </p>
             {% endif %}

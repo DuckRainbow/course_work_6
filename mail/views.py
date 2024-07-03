@@ -98,7 +98,7 @@ class MailDetailView(DetailView):
     model = Mail
 
 
-class MailCreateView(PermissionRequiredMixin, CreateView):
+class MailCreateView(CreateView):
     model = Mail
     form_class = MailForm
     success_url = reverse_lazy('mail:mails_list')
@@ -111,7 +111,7 @@ class MailCreateView(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class MailUpdateView(PermissionRequiredMixin, UpdateView):
+class MailUpdateView(UpdateView):
     model = Mail
     form_class = MailForm
 
@@ -128,7 +128,7 @@ class MailUpdateView(PermissionRequiredMixin, UpdateView):
         raise PermissionDenied
 
 
-class MailDeleteView(PermissionRequiredMixin, DeleteView):
+class MailDeleteView(DeleteView):
     model = Mail
     success_url = reverse_lazy('mail:mails_list')
 
