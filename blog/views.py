@@ -22,13 +22,13 @@ class ArticleDetailView(DetailView):
         return self.object
 
 
-class ArticleCreateView(PermissionRequiredMixin, CreateView):
+class ArticleCreateView(CreateView):
     model = Article
     fields = ('title', 'slug', 'content', 'preview', 'published')
     success_url = reverse_lazy('blog:articles_list')
 
 
-class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
+class ArticleUpdateView(UpdateView):
     model = Article
     fields = ('title', 'slug', 'content', 'preview', 'published')
     success_url = reverse_lazy('blog:articles_list')
@@ -37,7 +37,7 @@ class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
         return reverse('blog:articles_detail', args=[self.kwargs.get('pk')])
 
 
-class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
+class ArticleDeleteView(DeleteView):
     model = Article
     success_url = reverse_lazy('blog:articles_list')
 
