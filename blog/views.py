@@ -24,13 +24,13 @@ class ArticleDetailView(DetailView):
 
 class ArticleCreateView(CreateView):
     model = Article
-    fields = ('title', 'slug', 'content', 'preview', 'published')
+    fields = ('title', 'content', 'preview', 'published')
     success_url = reverse_lazy('blog:articles_list')
 
 
 class ArticleUpdateView(UpdateView):
     model = Article
-    fields = ('title', 'slug', 'content', 'preview', 'published')
+    fields = ('title', 'content', 'preview', 'published')
     success_url = reverse_lazy('blog:articles_list')
 
     def get_success_url(self):
