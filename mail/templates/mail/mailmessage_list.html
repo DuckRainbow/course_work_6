@@ -23,7 +23,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <p class="card-text">{{ message.subject }}</p>
-                        <p class="card-text">{{ message.body|comment:25 }}</p>
+                        <p class="card-text">{{ message.body|truncatechars:25 }}</p>
                         {% if user == message.owner %}
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">

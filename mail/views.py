@@ -1,6 +1,6 @@
 import random
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy, reverse
@@ -20,7 +20,7 @@ class ClientDetailView(DetailView):
     model = Client
 
 
-class ClientCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('mail:clients_list')
@@ -33,7 +33,7 @@ class ClientCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ClientUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('mail:clients_list')
@@ -45,7 +45,7 @@ class ClientUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
         raise PermissionDenied
 
 
-class ClientDeleteView(PermissionRequiredMixin, DeleteView):
+class ClientDeleteView(DeleteView):
     model = Client
     success_url = reverse_lazy('mail:clients_list')
 
@@ -58,7 +58,7 @@ class MailMessageDetailView(DetailView):
     model = MailMessage
 
 
-class MailMessageCreateView(PermissionRequiredMixin, CreateView):
+class MailMessageCreateView(CreateView):
     model = MailMessage
     form_class = MailMessageForm
     success_url = reverse_lazy('mail:messages_list')
@@ -71,7 +71,7 @@ class MailMessageCreateView(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class MailMessageUpdateView(PermissionRequiredMixin, UpdateView):
+class MailMessageUpdateView(UpdateView):
     model = MailMessage
     form_class = MailMessageForm
 
@@ -85,7 +85,7 @@ class MailMessageUpdateView(PermissionRequiredMixin, UpdateView):
         raise PermissionDenied
 
 
-class MailMessageDeleteView(PermissionRequiredMixin, DeleteView):
+class MailMessageDeleteView(DeleteView):
     model = MailMessage
     success_url = reverse_lazy('mail:messages_list')
 
