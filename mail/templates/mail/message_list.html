@@ -27,11 +27,11 @@
                         {% if user == message.owner %}
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a class="btn btn-primary" href="{% url 'catalog:messages_detail' message.pk %}"
+                                <a class="btn btn-primary" href="{% url 'mail:messages_detail' message.pk %}"
                                    role="button">Посмотреть</a>
-                                <a class="btn btn-primary" href="{% url 'catalog:messages_update' message.pk %}"
+                                <a class="btn btn-primary" href="{% url 'mail:messages_update' message.pk %}"
                                    role="button">Редактировать</a>
-                                <a class="btn btn-primary" href="{% url 'catalog:messages_delete' message.pk %}"
+                                <a class="btn btn-primary" href="{% url 'mail:messages_delete' message.pk %}"
                                    role="button">Удалить</a>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
 </div>
 <div class="d-flex justify-content-between align-items-center">
     <div class="btn-group">
-        <a class="btn btn-primary" href="{% url 'mail:mail_list' %}" role="button">Перейти к рассылкам</a>
+        <a class="btn btn-primary" href="{% url 'mail:mails_list' %}" role="button">Перейти к рассылкам</a>
     </div>
 </div>
 <div class="d-flex justify-content-between align-items-center">
