@@ -82,8 +82,8 @@ class Mail(models.Model):
         null=True,
         help_text='Введите название рассылки.'
     )
-    first_date = models.DateTimeField(
-        verbose_name="Дата первой отправкм",
+    first_date = models.DateField(
+        verbose_name="Дата первой отправки",
         blank=True,
         null=True
     )
