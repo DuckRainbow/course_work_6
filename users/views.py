@@ -45,11 +45,17 @@ def email_verification(request, token):
 class UserDetailView(DetailView):
     model = User
 
+    def get_object(self, queryset=None):
+        return self.request.user
+
 
 class UserUpdateView(UpdateView):
     model = User
     form_class = UserUpdateForm
     success_url = reverse_lazy('users:profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 class ResetPassword(TemplateView):
