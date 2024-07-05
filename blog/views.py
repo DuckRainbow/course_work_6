@@ -1,15 +1,11 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.core.cache import cache
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from blog.models import Article
-from config.settings import CACHE_ENABLED
 
 
 class ArticleListView(ListView):
     model = Article
-
 
 
 class ArticleDetailView(DetailView):
@@ -40,4 +36,3 @@ class ArticleUpdateView(UpdateView):
 class ArticleDeleteView(DeleteView):
     model = Article
     success_url = reverse_lazy('blog:articles_list')
-
