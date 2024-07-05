@@ -85,7 +85,8 @@ class Mail(models.Model):
     first_date = models.DateTimeField(
         verbose_name="Дата первой отправки",
         blank=True,
-        null=True
+        null=True,
+        help_text='При создании введите дату и время в формате мм/дд/гг чч:мм.'
     )
     date_try = models.DateTimeField(
         verbose_name="Дата последней попытки",
