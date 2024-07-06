@@ -8,18 +8,18 @@ from django.core.mail import send_mail
 from mail.models import Mail, MailTry
 
 
-def get_date_send(newsletter, current_datetime):
+def get_date_send(mail, current_datetime):
     """
     Функция корректировки  даты и временм для следующей отправки рассылки (datetime_send).
     """
-    if newsletter.datetime_send < current_datetime:
-        if newsletter.periodicity == "daily":
-            newsletter.datetime_send += timedelta(days=1, hours=0, minutes=0)
-        elif newsletter.periodicity == "weekly":
-            newsletter.datetime_send += timedelta(days=7, hours=0, minutes=0)
-        elif newsletter.periodicity == "monthly":
-            newsletter.datetime_send += timedelta(days=30, hours=0, minutes=0)
-        newsletter.save()
+    if mail.datetime_send < current_datetime:
+        if mail.periodicity == "daily":
+            mail.datetime_send += timedelta(days=1, hours=0, minutes=0)
+        elif mail.periodicity == "weekly":
+            mail.datetime_send += timedelta(days=7, hours=0, minutes=0)
+        elif mail.periodicity == "monthly":
+            mail.datetime_send += timedelta(days=30, hours=0, minutes=0)
+        mail.save()
 
 
 def send_mail_by_time():

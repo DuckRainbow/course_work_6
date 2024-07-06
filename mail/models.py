@@ -86,7 +86,21 @@ class Mail(models.Model):
         verbose_name="Дата первой отправки",
         blank=True,
         null=True,
-        help_text='При создании введите дату и время в формате мм/дд/гг чч:мм.'
+        help_text='Введите дату первой отправки сообщения в рассылке'
+    )
+    datetime_send = models.DateTimeField(
+        verbose_name="Дата следующей отправки",
+        auto_now=True,
+        blank=True,
+        null=True,
+        help_text='Введите дату первой отправки сообщения в рассылке'
+    )
+    datetime_finish = models.DateTimeField(
+        verbose_name="Дата последней отправки",
+        auto_now=True,
+        blank=True,
+        null=True,
+        help_text='Введите дату, до которой будет действовать рассылка'
     )
     date_try = models.DateTimeField(
         verbose_name="Дата последней попытки",
