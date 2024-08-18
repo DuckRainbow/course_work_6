@@ -8,7 +8,7 @@ from users.models import User
 class UserRegisterForm(FormStyleMixin, UserCreationForm):
     class Meta:
         model = User
-        fields = ['email', 'password']
+        fields = ['email', 'password1', 'password2']
 
 
 class UserUpdateForm(FormStyleMixin, UserChangeForm):
