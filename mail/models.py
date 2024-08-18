@@ -84,6 +84,7 @@ class Mail(models.Model):
     )
     first_date = models.DateTimeField(
         verbose_name="Дата первой отправки",
+        auto_now=True,
         blank=True,
         null=True,
         help_text='Введите дату первой отправки сообщения в рассылке'
