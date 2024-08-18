@@ -64,10 +64,10 @@ class MailMessageCreateView(CreateView):
     success_url = reverse_lazy('mail:messages_list')
 
     def form_valid(self, form):
-        client = form.save()
+        message = form.save()
         user = self.request.user
-        client.owner = user
-        client.save()
+        message.owner = user
+        message.save()
         return super().form_valid(form)
 
 
@@ -104,10 +104,10 @@ class MailCreateView(CreateView):
     success_url = reverse_lazy('mail:mails_list')
 
     def form_valid(self, form):
-        client = form.save()
+        mail = form.save()
         user = self.request.user
-        client.owner = user
-        client.save()
+        mail.owner = user
+        mail.save()
         return super().form_valid(form)
 
 
